@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gender Reveal 💫</title>
+
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+      color: #fff;
+    }
+
+    .card {
+      background: rgba(0,0,0,0.25);
+      padding: 40px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 500px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .countdown {
+      font-size: 2rem;
+      margin: 20px 0;
+    }
+
+    .reveal {
+      display: none;
+      font-size: 3rem;
+      font-weight: bold;
+      margin-top: 30px;
+      animation: pop 0.6s ease-out;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>👶 Baby Gender Reveal</h1>
+    <p>The big surprise is coming in...</p>
+
+    <div class="countdown" id="countdown">Loading...</div>
+
+    <div class="reveal" id="reveal"></div>
+  </div>
+
+  <script>
+    // 🔐 ENCRYPTED GENDER VALUE (not readable)
+    const secret = atob("R2lybA=="); // Change encrypted value only
+
+    // ⏰ SET YOUR REVEAL DATE (YYYY-MM-DDTHH:MM:SS)
+    const revealDate = new Date("2026-02-25T20:15:00").getTime();
+
+    const countdownEl = document.getElementById("countdown");
+    const revealEl = document.getElementById("reveal");
+
+    const timer = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = revealDate - now;
+
+      if (distance <= 0) {
+        clearInterval(timer);
+        countdownEl.style.display = "none";
+
+        revealEl.style.display = "block";
+        revealEl.textContent = secret === "Boy" ? "💙 IT'S A BOY! 💙" : "💖 IT'S A GIRL! 💖";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((distance / (1000 * 60)) % 60);
+      const seconds = Math.floor((distance / 1000) % 60);
+
+      countdownEl.textContent =
+        `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }, 1000);
+  </script>
+
+</body>
+</html>
